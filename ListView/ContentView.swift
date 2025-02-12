@@ -62,55 +62,60 @@ struct FirstView: View {
         tasksArray.move(fromOffsets: from, toOffset: to) // 配列内での並び替え
         if let encodedArray = try? JSONEncoder().encode(tasksArray) {
             tasksData = encodedArray // エンコードできたらAppStorageに渡す(保存・更新)
-        }
-    }
-    func rowRemove(at offsets: IndexSet) {
-        tasksArray.remove(atOffsets: offsets)
-        if let encodedArray = try? JSONEncoder().encode(tasksArray) {
-            tasksData = encodedArray
-        }
-    }
-    struct SecondView: View {
-        @Environment(\.dismiss) private var dismiss
-        @State var task: String = ""
-        
-        @Binding var tasksArray: [Task]
-        
-        var body: some View {
-            TextField("Enter your task", text: $task)
-                .textFieldStyle(.roundedBorder)
-                .padding()
-            Button {
-                addTask(newTask: task)
-                task = ""
-                print(tasksArray)
-            } label: {
-                Text("Add")
-            }
-            .buttonStyle(.borderedProminent)
-            .tint(.orange)
-            .padding()
             
-            Spacer()
-            
-            
-        }
-        func addTask(newTask: String) {
-            if !newTask.isEmpty {
-                let task = Task(taskItem: newTask)
-                var array = tasksArray
-                array.append(task)
-                
-                if let encodedData = try? JSONEncoder().encode(array) {
-                    UserDefaults.standard.setValue(encodedData, forKey: "TasksData")
-                    tasksArray = array
-                    dismiss()
-                }
-            }
         }
     }
     
-    #Preview("FirstView") {
-        SecondView(tasksArray: FirstView().$tasksArray)
+    func rowRemove(at offsets: IndexSet) {
+        var array = tasksArray
+        array.remove(atOffsets: offsets)
+        if let encodedArray = try? JSONEncoder().encode(array) {
+            tasksArray = array
+            tasksData = encodedArray
+        }
     }
+}
+
+struct SecondView: View {
+    @Environment(\.dismiss) private var dismiss
+    @State var task: String = ""
+    
+    @Binding var tasksArray: [Task]
+    
+    var body: some View {
+        TextField("Enter your task", text: $task)
+            .textFieldStyle(.roundedBorder)
+            .padding()
+        Button {
+            addTask(newTask: task)
+            task = ""
+            print(tasksArray)
+        } label: {
+            Text("Add")
+        }
+        .buttonStyle(.borderedProminent)
+        .tint(.orange)
+        .padding()
+        
+        Spacer()
+        
+        
+    }
+    func addTask(newTask: String) {
+        if !newTask.isEmpty {
+            let task = Task(taskItem: newTask)
+            var array = tasksArray
+            array.append(task)
+            
+            if let encodedData = try? JSONEncoder().encode(array) {
+                UserDefaults.standard.setValue(encodedData, forKey: "TasksData")
+                tasksArray = array
+                dismiss()
+            }
+        }
+    }
+}
+
+#Preview("FirstView") {
+    SecondView(tasksArray: FirstView().$tasksArray)
 }

@@ -7,33 +7,33 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "EC716707-AADC-4613-89D7-64BD3A6DF90F"
-            shouldBeEnabled = "No"
+            uuid = "4BBADFC6-077F-40B3-B1F9-82BD155455F7"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ListView/ContentView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "74"
-            endingLineNumber = "74"
-            landmarkName = "SecondView"
-            landmarkType = "14">
+            startingLineNumber = "63"
+            endingLineNumber = "63"
+            landmarkName = "replaceRow(_:_:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "0F6D0479-7A60-42E7-A320-623E5A0FC184"
-            shouldBeEnabled = "No"
+            uuid = "9B7A5965-B690-4BF8-A33E-97355D6F5BBB"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ListView/ContentView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "73"
-            endingLineNumber = "73"
-            landmarkName = "SecondView"
-            landmarkType = "14">
+            startingLineNumber = "62"
+            endingLineNumber = "62"
+            landmarkName = "replaceRow(_:_:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
