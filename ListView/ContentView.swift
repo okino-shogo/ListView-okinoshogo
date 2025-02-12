@@ -42,16 +42,21 @@ struct FirstView: View {
                 .onMove(perform: { from, to in
                     replaceRow(from, to)
                     
+                    
+                    
                 })
+                .onDelete(perform: rowRemove)
             }
             .navigationTitle("Task List")
             // ナビゲーションバーに編集ボタンを追加
             .toolbar{
                 EditButton()
+                
             }
         }
         .padding()
     }
+    
     // 並び替え処理と並び替え後の保存
     func replaceRow(_ from: IndexSet, _ to: Int) {
         tasksArray.move(fromOffsets: from, toOffset: to) // 配列内での並び替え
@@ -59,47 +64,53 @@ struct FirstView: View {
             tasksData = encodedArray // エンコードできたらAppStorageに渡す(保存・更新)
         }
     }
-}
-struct SecondView: View {
-    @Environment(\.dismiss) private var dismiss
-    @State var task: String = ""
-    
-    @Binding var tasksArray: [Task]
-    
-    var body: some View {
-        TextField("Enter your task", text: $task)
-            .textFieldStyle(.roundedBorder)
-            .padding()
-        Button {
-            addTask(newTask: task)
-            task = ""
-            print(tasksArray)
-        } label: {
-            Text("Add")
+    func rowRemove(at offsets: IndexSet) {
+        tasksArray.remove(atOffsets: offsets)
+        if let encodedArray = try? JSONEncoder().encode(tasksArray) {
+            tasksData = encodedArray
         }
-        .buttonStyle(.borderedProminent)
-        .tint(.orange)
-        .padding()
-        
-        Spacer()
-        
-        
     }
-    func addTask(newTask: String) {
-        if !newTask.isEmpty {
-            let task = Task(taskItem: newTask)
-            var array = tasksArray
-            array.append(task)
+    struct SecondView: View {
+        @Environment(\.dismiss) private var dismiss
+        @State var task: String = ""
+        
+        @Binding var tasksArray: [Task]
+        
+        var body: some View {
+            TextField("Enter your task", text: $task)
+                .textFieldStyle(.roundedBorder)
+                .padding()
+            Button {
+                addTask(newTask: task)
+                task = ""
+                print(tasksArray)
+            } label: {
+                Text("Add")
+            }
+            .buttonStyle(.borderedProminent)
+            .tint(.orange)
+            .padding()
             
-            if let encodedData = try? JSONEncoder().encode(array) {
-                UserDefaults.standard.setValue(encodedData, forKey: "TasksData")
-                tasksArray = array
-                dismiss()
+            Spacer()
+            
+            
+        }
+        func addTask(newTask: String) {
+            if !newTask.isEmpty {
+                let task = Task(taskItem: newTask)
+                var array = tasksArray
+                array.append(task)
+                
+                if let encodedData = try? JSONEncoder().encode(array) {
+                    UserDefaults.standard.setValue(encodedData, forKey: "TasksData")
+                    tasksArray = array
+                    dismiss()
+                }
             }
         }
     }
+    
+    #Preview("FirstView") {
+        SecondView(tasksArray: FirstView().$tasksArray)
+    }
 }
-
-//#Preview("Second View") {
-//    SecondView(tasksArray: FirstView().$tasksArray)
-//}
